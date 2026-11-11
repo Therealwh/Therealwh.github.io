@@ -143,7 +143,7 @@ footer a:hover{color:#59bdf2}
 <div class="hero wrap">
   <div class="statuspill" id="pill2" style="font-size:14px"><span class="pulse"></span><span id="pill2txt">Проверяется…</span></div>
   <h1>Рабочий MTProto Web Proxy<br>на <span class="yr">11 ноября 2026</span></h1>
-  <p class="sub">Проверка доступности каждые <b>5 минут</b> — полностью автоматически. Подключение к Telegram в <b>1 клик</b>, без VPN и настроек.</p>
+  <p class="sub">Статус обновляется автоматически (GitHub Actions, каждые ~5–15 минут — лимит платформы). Подключение к Telegram в <b>1 клик</b>, без VPN и настроек.</p>
   <div class="cta">
     <button class="btn btn-main" onclick="location.href='tg://resolve?domain=webproxy_tgrobot'">🚀 Подключить</button>
     <button class="btn btn-sec" id="copyLink">📋 Скопировать</button>
@@ -268,8 +268,10 @@ async function load(){
     const s=await (await fetch("status.json?t="+Date.now())).json();
     const p1=document.getElementById("pill"),p2=document.getElementById("pill2");
     const st=document.getElementById("u-status"),last=document.getElementById("u-last");
+    const age=(Date.now()-new Date(s.last_check))/1000;
     if(s.online===true){pill(p1,"ok","Прокси работает");pill(p2,"ok","🟢 Работает — проверено "+ago(s.last_check));st.textContent="🟢 Online";}
     else if(s.online===false){pill(p1,"bad","Прокси недоступен");pill(p2,"bad","🔴 Недоступен — проверено "+ago(s.last_check));st.textContent="🔴 Offline";}
+    if(age>1800){pill(p1,"","Обновление статуса…");pill(p2,"","🟡 Данные обновляются (проверка запущена)");st.textContent="🟡 Обновление";st.style.color="#d29922";}
     document.getElementById("u-ms").textContent=s.response_ms!=null?s.response_ms:"—";
     document.getElementById("u-last").textContent=ago(s.last_check);
     try{
