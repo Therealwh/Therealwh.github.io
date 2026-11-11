@@ -37,7 +37,12 @@
 <div class="wrap" style="padding-top:26px">
 <div class="crumbs"><a href="/">MTProxy Live</a><span style="color:#3a4a5f">/</span><span class="cur">MTProto и FakeTLS</span></div>
 <h1>MTProto блокируют в 2026 — FakeTLS спасает или нет?</h1>
-<div class="upd">Обновлено: 11 ноября 2026 · <a href="/">живой статус прокси</a></div>
+<div class="facts">
+  <div class="f"><b>tgchat.run</b><span>Сервер</span></div>
+  <div class="f"><b>443</b><span>Порт</span></div>
+  <div class="f"><b>MTProto</b><span>Протокол</span></div>
+  <div class="f"><b>Каждые 5 мин</b><span>Проверка статуса</span></div>
+</div><div class="upd">Обновлено: 11 ноября 2026 · <a href="/">живой статус прокси</a></div>
 <p class="lead">В 2026 году системы глубокого анализа трафика (ТСПУ) научились распознавать классический MTProto. Прокси с обычным секретом умирают за дни. Разбираем, что такое FakeTLS, чем секрет «ee» отличается от «dd» и что делать в этой ситуации.</p>
 
 <h2>Что произошло: DPI против plain MTProto</h2>
@@ -47,8 +52,8 @@
 <p>Секрет MTProto-прокси начинается с префикса, который определяет режим работы:</p>
 <table>
 <tr><th>Префикс</th><th>Режим</th><th>Стойкость в 2026</th></tr>
-<tr><td><b>dd</b> (+16 байт hex)</td><td>Plain MTProto</td><td>🔴 быстро распознаётся DPI</td></tr>
-<tr><td><b>ee</b> (+ hex с доменом)</td><td><b>FakeTLS</b></td><td>🟢 маскируется под HTTPS</td></tr>
+<tr><td><b>dd</b> (+16 байт hex)</td><td>Plain MTProto</td><td><span class="tag red">риск блокировки</span></td></tr>
+<tr><td><b>ee</b> (+ hex с доменом)</td><td><b>FakeTLS</b></td><td><span class="tag green">стойкий режим</span></td></tr>
 </table>
 <p><strong>FakeTLS</strong> — режим, при котором первое сообщение клиента имитирует настоящий TLS-handshake к правдоподобному домену. Для системы фильтрации подключение выглядит как обычный визит на HTTPS-сайт: SNI совпадает с реальным доменом, структура пакета «правильная». Рассекретить такое соединение без сложного статистического анализа практически невозможно.</p>
 
