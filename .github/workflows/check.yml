@@ -36,5 +36,12 @@ jobs:
             echo "No changes — skip commit"
           else
             git commit -m "chore: proxy status $(date -u +%FT%TZ)"
-            git push
+            for i in 1 2 3; do
+              if git pull --rebase origin main && git push; then
+                echo "pushed on attempt $i"
+                break
+              fi
+              echo "push attempt $i failed, retrying..."
+              sleep 5
+            done
           fi
