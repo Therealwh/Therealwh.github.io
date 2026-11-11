@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MTProto блокируют в 2026 — FakeTLS спасает или нет? Разбор | MTProxy Live</title>
+<meta name="description" content="Почему в 2026 ТСПУ режет plain MTProto, чем FakeTLS-секрет (ee) отличается от обычного (dd) и как проверить свой прокси. Честный разбор с живым статусом tgchat.run.">
+<meta name="keywords" content="mtproto faketls, mtproto блокируют 2026, mtproto не работает 2026, faketls секрет, mtproto ee секрет, dd секрет mtproto, тспу телеграм, dpi mtproto, mtrproto, mtporoto, мтпрото рабочий, mtproto онлайн">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://therealwh.github.io/mtproto-faketls.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MTProxy Live">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="MTProto блокируют в 2026 — FakeTLS спасает или нет? Разбор | MTProxy Live">
+<meta property="og:description" content="Почему в 2026 ТСПУ режет plain MTProto, чем FakeTLS-секрет (ee) отличается от обычного (dd) и как проверить свой прокси. Честный разбор с живым статусом tgchat.run.">
+<meta property="og:url" content="https://therealwh.github.io/mtproto-faketls.html">
+<meta property="og:image" content="https://therealwh.github.io/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MTProto блокируют в 2026 — FakeTLS спасает или нет? Разбор | MTProxy Live">
+<meta name="twitter:description" content="Почему в 2026 ТСПУ режет plain MTProto, чем FakeTLS-секрет (ee) отличается от обычного (dd) и как проверить свой прокси. Честный разбор с живым статусом tgchat.run.">
+<meta name="theme-color" content="#0b1120">
+<link rel="icon" href="favicon.ico">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "MTProto блокируют в 2026 — FakeTLS спасает или нет?", "url": "https://therealwh.github.io/mtproto-faketls.html", "isPartOf": {"@id": "https://therealwh.github.io/#org"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "FakeTLS безопаснее plain MTProto?", "acceptedAnswer": {"@type": "Answer", "text": "Для обхода фильтрации — да: соединение неотличимо от обычного HTTPS. Шифрование переписки при этом не меняется — оно всегда защищено протоколом Telegram."}}, {"@type": "Question", "name": "Какой префикс у FakeTLS-секрета?", "acceptedAnswer": {"@type": "Answer", "text": "ee — за ним идёт hex, в который встроен домен для маскировки TLS-handshake. Обычный секрет начинается с dd."}}, {"@type": "Question", "name": "Почему на главной секрет начинается с dd?", "acceptedAnswer": {"@type": "Answer", "text": "Сервер tgchat.run сейчас работает в plain-режиме — мы честно показываем это и следим за статусом. При блокировке рекомендуем переход на FakeTLS-сервер из бота."}}, {"@type": "Question", "name": "Что будет с plain-прокси в 2027?", "acceptedAnswer": {"@type": "Answer", "text": "Тренд однозначный: доля живых plain-серверов сокращается. FakeTLS стал стандартом де-факто для выживания прокси."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "MTProto блокируют в 2026 — FakeTLS спасает или нет?", "datePublished": "2026-11-11", "dateModified": "2026-11-11", "author": {"@type": "Organization", "@id": "https://therealwh.github.io/#org", "name": "MTProxy Live"}, "publisher": {"@id": "https://therealwh.github.io/#org"}}</script>
+<script>try{if(!sessionStorage.getItem("htswr")){navigator.serviceWorker.addEventListener("controllerchange",function(){try{if(sessionStorage.getItem("htswr"))return;sessionStorage.setItem("htswr","1");location.reload()}catch(e){}})}}catch(e){}</script>
+<script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=107048957', 'ym');ym(107048957, 'init', {ssr:true, webvisor:true, clickmap:true, accurateTrackBounce:true, trackLinks:true});</script>
+</head>
+<body>
+
+<div class="topbar"><div class="in">
+  <div class="logo"><span class="dot"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12 l14 -6 -6 13 -3 -5 -5 2 Z" fill="#fff"/></svg></span>MTProxy <span style="color:#2AABEE">Live</span></div>
+  <div class="statuspill ok"><span class="pulse"></span><a href="/" style="color:#4ade80">К прокси →</a></div>
+</div></div>
+
+<div class="wrap" style="padding-top:26px">
+<div class="crumbs"><a href="/">MTProxy Live</a><span style="color:#3a4a5f">/</span><span class="cur">MTProto и FakeTLS</span></div>
+<h1>MTProto блокируют в 2026 — FakeTLS спасает или нет?</h1>
+<div class="upd">Обновлено: 11 ноября 2026 · <a href="/">живой статус прокси</a></div>
+<p class="lead">В 2026 году системы глубокого анализа трафика (ТСПУ) научились распознавать классический MTProto. Прокси с обычным секретом умирают за дни. Разбираем, что такое FakeTLS, чем секрет «ee» отличается от «dd» и что делать в этой ситуации.</p>
+
+<h2>Что произошло: DPI против plain MTProto</h2>
+<p>Раньше MTProto-прокси работали годами: протокол маскировал трафик Telegram так, что системы фильтрации не могли его уверенно отличить. Но в 2026 году <strong>ТСПУ (технические средства противодействия угрозам)</strong> шагнули вперёд — они научились распознавать <strong>plain-версию MTProto</strong> по характерным признакам подключения. Результат: прокси с классическими секретами начали массово «протухать» — сервер жив, пинг проходит, но Telegram через него не подключается.</p>
+
+<h2>Секрет «dd» и секрет «ee» — в чём разница</h2>
+<p>Секрет MTProto-прокси начинается с префикса, который определяет режим работы:</p>
+<table>
+<tr><th>Префикс</th><th>Режим</th><th>Стойкость в 2026</th></tr>
+<tr><td><b>dd</b> (+16 байт hex)</td><td>Plain MTProto</td><td>🔴 быстро распознаётся DPI</td></tr>
+<tr><td><b>ee</b> (+ hex с доменом)</td><td><b>FakeTLS</b></td><td>🟢 маскируется под HTTPS</td></tr>
+</table>
+<p><strong>FakeTLS</strong> — режим, при котором первое сообщение клиента имитирует настоящий TLS-handshake к правдоподобному домену. Для системы фильтрации подключение выглядит как обычный визит на HTTPS-сайт: SNI совпадает с реальным доменом, структура пакета «правильная». Рассекретить такое соединение без сложного статистического анализа практически невозможно.</p>
+
+<h2>Как проверить свой прокси</h2>
+<p>Посмотри на секрет, который выдал бот или владелец сервера:</p>
+<p>• Начинается с <strong>dd</strong> и дальше только hex-символы — это plain-режим. Работать будет до очередного обновления ТСПУ.<br>
+• Начинается с <strong>ee</strong> — FakeTLS. Такой сервер живёт в разы дольше.<br>
+• Начинается с <strong>dd</strong>, а дальше идёт <strong>домен в hex</strong> — тоже FakeTLS-вариант с коротким доменом.</p>
+<div class="note">💡 Проверь секрет прокси прямо сейчас — скопируй его в карточке на <a href="/">главной странице</a> и посмотри первые два символа.</div>
+
+<h2>Почему многие «рабочие списки» врут</h2>
+<p>Агрегаторы прокси проверяют серверы обычным ping или TCP-подключением. Но DPI-блокировка работает иначе: TCP-соединение с сервером <strong>успешно проходит</strong>, а MTProto-хендшейк обрывается. Сервер «жив» для пингера и «мёртв» для Telegram. Поэтому доверять стоит только статусам с реальной проверкой подключения — как на <a href="/">главной странице</a>, где каждые 5 минут идёт настоящий тест.</p>
+
+<h2>Что делать, если твой прокси на «dd»</h2>
+<p>• Попроси владельца сервера включить FakeTLS — в популярном софте (MTProxy, mtprotoproxy) это настройка из одной строки: домен маскировки дописывается к секрету.<br>
+• Или возьми прокси, который сразу работает на «ee» — например, в <strong>боте бесплатных прокси</strong> ниже.<br>
+• Приватные серверы в 2026 году обычно сразу идут на FakeTLS — это стандарт платных размещений.</p>
+
+<div class="faq"><details open><summary>FakeTLS безопаснее plain MTProto?</summary><p>Для обхода фильтрации — да: соединение неотличимо от обычного HTTPS. Шифрование переписки при этом не меняется — оно всегда защищено протоколом Telegram.</p></details><details open><summary>Какой префикс у FakeTLS-секрета?</summary><p>ee — за ним идёт hex, в который встроен домен для маскировки TLS-handshake. Обычный секрет начинается с dd.</p></details><details open><summary>Почему на главной секрет начинается с dd?</summary><p>Сервер tgchat.run сейчас работает в plain-режиме — мы честно показываем это и следим за статусом. При блокировке рекомендуем переход на FakeTLS-сервер из бота.</p></details><details open><summary>Что будет с plain-прокси в 2027?</summary><p>Тренд однозначный: доля живых plain-серверов сокращается. FakeTLS стал стандартом де-факто для выживания прокси.</p></details></div>
+
+<div class="wrap"><section>
+  <h2 class="sec">Подключиться к прокси прямо сейчас</h2>
+  <p class="secdesc">Статус сервера обновляется каждые 5 минут — на <a href="/">главной странице</a>.</p>
+  <div class="cta">
+    <a class="btn btn-main" href="tg://resolve?domain=webproxy_tgrobot">🚀 Получить прокси через бота</a>
+    <a class="btn btn-sec" href="tg://resolve?domain=webproxy_panel_bot">💎 Приватный прокси с FakeTLS</a>
+  </div>
+</section></div>
+
+</div>
+
+<footer>
+  <div>MTProxy Live · живой статус MTProto web proxy · проверка каждые 5 минут</div>
+  <div style="margin-top:6px">Проект не аффилирован с Telegram. Используйте в соответствии с законодательством вашей страны.</div>
+</footer>
+</body>
+</html>
